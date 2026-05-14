@@ -66,9 +66,9 @@ export function StickyFooter() {
             <div
               className="
                 absolute
-                bottom-6 left-6
-                sm:bottom-6 sm:top-auto sm:left-auto sm:right-8
-                flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8
+                top-6 right-6
+                sm:top-auto sm:bottom-6 sm:right-8
+                flex flex-col sm:flex-row items-end sm:items-center gap-4 sm:gap-8
               "
             >
               <div className="flex items-center gap-4 text-white">
@@ -82,7 +82,7 @@ export function StickyFooter() {
                   <Twitter className="h-5 w-5" />
                 </a>
               </div>
-              <div className="text-xs sm:text-sm text-white/60">
+              <div className="text-xs sm:text-sm text-white/60 text-right sm:text-left">
                 © {new Date().getFullYear()} Formyx Solutions. All rights reserved.
               </div>
             </div>
