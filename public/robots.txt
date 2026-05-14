@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://formyxsolutions.com/
+
+# Sitemaps
+Sitemap: https://formyxsolutions.com/sitemap.xml
