@@ -1,3 +1,5 @@
+"use client"
+
 import Header from "@/components/header"
 import { StickyFooter } from "@/components/sticky-footer"
 import { Play } from "lucide-react"
