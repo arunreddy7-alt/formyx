@@ -79,7 +79,7 @@ export default function GlobalClients() {
   const descriptionY = useTransform(smoothProgress, [0.8, 1], [0, isMobile ? -100 : 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[300vh] bg-[#05000a] text-white">
+    <section ref={containerRef} className="relative h-[300vh] lg:h-[180vh] bg-[#05000a] text-white">
         
         {/* Sticky container that stays fixed on screen while we scroll the section */}
         <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center bg-[#05000a]">
