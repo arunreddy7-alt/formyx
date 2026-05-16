@@ -1,178 +1,156 @@
 "use client"
 
 import Sseperator from "./ui/seperator"
+import { SectionSeperator } from "./ui/section-seperator"
 import { motion, useInView } from "framer-motion"
-import { Suspense, useEffect, useRef, useState } from "react"
-import { useTheme } from "next-themes"
-import Earth from "./ui/globe"
-import ScrambleHover from "./ui/scramble"
+import { useRef } from "react"
 import { FollowerPointerCard } from "./ui/following-pointer"
 import { cn } from "@/lib/utils"
 
+const CAPABILITIES = [
+  {
+    title: "AI Workflow Automation",
+    description:
+      "End-to-end process automation across your operations. Our agents handle multi-step workflows — from lead intake to fulfillment — so your team focuses on strategy, not repetitive tasks.",
+  },
+  {
+    title: "Human-in-the-Loop Control",
+    description:
+      "Reviews, approvals, and escalations exactly where needed. Every critical decision passes through your team before execution — full visibility, zero blind spots.",
+  },
+  {
+    title: "Private Server Development",
+    description:
+      "Models run on your infrastructure, your data never leaves. We design and build AI automations tailored to your business, not generic templates — deployed on your private servers.",
+  },
+  {
+    title: "Custom Model Integration",
+    description:
+      "Connect GPT, Claude, Llama, or proprietary models to your stack. We wire the best-fit model into your existing tools, APIs, and databases — no vendor lock-in, full flexibility.",
+  },
+]
+
+const BUSINESS_IMPACT = [
+  {
+    title: "Instant Lead Response",
+    description:
+      "Every inbound lead gets immediate, intelligent follow-up — day or night.",
+    num: "01",
+  },
+  {
+    title: "Lower Operating Costs",
+    description:
+      "Automate repetitive tasks without adding headcount or management overhead.",
+    num: "02",
+  },
+  {
+    title: "Data Stays Private",
+    description:
+      "AI runs on your own servers. No customer data sent to third-party APIs.",
+    num: "03",
+  },
+  {
+    title: "24/7 Operations",
+    description:
+      "Your business runs even when your team is off. No gaps, no missed tasks.",
+    num: "04",
+  },
+  {
+    title: "Fewer Errors",
+    description:
+      "Automated workflows eliminate the human errors common in manual processes.",
+    num: "05",
+  },
+  {
+    title: "Scales With You",
+    description:
+      "Add new automations as you grow, no rearchitecting the whole system.",
+    num: "06",
+  },
+]
+
 export default function CoreCapabilitiesInteractive() {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
-  const { theme } = useTheme()
-
-  const [isOrchHover, setIsOrchHover] = useState(false)
-  const [isHumanHover, setIsHumanHover] = useState(false)
-  const [isMemoryHover, setIsMemoryHover] = useState(false)
-  const [isObserveHover, setIsObserveHover] = useState(false)
-  const [isIntegrationHover, setIsIntegrationHover] = useState(false)
-
-  const [baseColor, setBaseColor] = useState<[number, number, number]>([0.247, 0.0, 0.443])
-  const [glowColor, setGlowColor] = useState<[number, number, number]>([0.38, 0.0, 0.58])
-  const [dark, setDark] = useState<number>(theme === "dark" ? 1 : 0)
-
-  useEffect(() => {
-    setDark(theme === "dark" ? 1 : 0)
-  }, [theme])
+  const impactRef = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const isImpactInView = useInView(impactRef, { once: true, amount: 0.2 })
 
   return (
-    <section className="relative py-40" id="features">
-      <Sseperator />
+    <>
+      {/* ── Core Capabilities ── */}
+      <section className="relative py-40" id="features">
+        <Sseperator />
 
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 50 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="container mx-auto flex flex-col items-center gap-12 "
-      >
-        <h2
-          className={cn(
-            "bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-center text-4xl font-semibold tracking-tight text-transparent md:text-[54px]",
-          )}
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="container mx-auto flex flex-col items-center gap-12"
         >
-          Core Capabilities
-        </h2>
+          <SectionSeperator badgeText="Core Capabilities" />
 
-        <FollowerPointerCard title="Formyx Platform">
-          <div className="grid grid-cols-12 gap-6">
-            {/* Multi-Agent Orchestration */}
-            <motion.div
-              onMouseEnter={() => setIsOrchHover(true)}
-              onMouseLeave={() => setIsOrchHover(false)}
-              className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-6 backdrop-blur-xl"
-              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(63,0,113,0.25)" }}
-            >
-              <h3 className="text-2xl font-semibold">Multi-Agent Orchestration</h3>
-              <p className="mt-2 text-sm text-zinc-400">
-                Coordinate agents using shared memory, interrupts, and conditional logic.
-              </p>
-
-              <div className="mt-6 flex justify-center">
-                <ScrambleHover
-                  text="multi-agent"
-                  scrambleSpeed={60}
-                  maxIterations={18}
-                  className="bg-gradient-to-r from-[#3F0071] to-[#610094] bg-clip-text text-lg text-transparent"
-                  isHovering={isOrchHover}
-                  setIsHovering={setIsOrchHover}
-                />
-              </div>
-            </motion.div>
-
-            {/* Human-in-the-Loop */}
-            <motion.div
-              onMouseEnter={() => setIsHumanHover(true)}
-              onMouseLeave={() => setIsHumanHover(false)}
-              className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-6 backdrop-blur-xl"
-              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(63,0,113,0.25)" }}
-            >
-              <h3 className="text-2xl font-semibold">Human-in-the-Loop Control</h3>
-              <p className="mt-2 text-sm text-zinc-400">
-                Reviews, approvals, and escalations exactly where needed.
-              </p>
-
-              <div className="mt-8 flex justify-center gap-6">
-                {[0, 1, 2].map((i) => (
+          <FollowerPointerCard title="Formyx Platform">
+            <div className="grid grid-cols-12 gap-6">
+              {CAPABILITIES.map((cap, i) => (
                   <motion.div
                     key={i}
-                    className="h-7 w-7 rounded-full bg-[#610094]/70"
-                    animate={isHumanHover ? { scale: [1, 1.5, 1] } : {}}
-                    transition={{ duration: 0.9, repeat: Infinity, delay: i * 0.2 }}
-                  />
-                ))}
-              </div>
-            </motion.div>
+                    className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-8 backdrop-blur-xl flex flex-col gap-4"
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0 0 30px rgba(63,0,113,0.25)",
+                    }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    <h3 className="text-xl font-semibold md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#d08bff] to-[#610094]">{cap.title}</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed md:text-base">
+                      {cap.description}
+                    </p>
+                  </motion.div>
+              ))}
+            </div>
+          </FollowerPointerCard>
+        </motion.div>
+      </section>
 
-            {/* Memory & Context */}
-            <motion.div
-              onMouseEnter={() => setIsMemoryHover(true)}
-              onMouseLeave={() => setIsMemoryHover(false)}
-              className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-6 backdrop-blur-xl"
-              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(63,0,113,0.25)" }}
-            >
-              <h3 className="text-2xl font-semibold">Memory & Context Persistence</h3>
-              <p className="mt-2 text-sm text-zinc-400">
-                Long-term memory across sessions, workflows, and agents.
-              </p>
+      {/* ── Business Impact ── */}
+      <section className="relative py-32 overflow-hidden bg-gradient-to-b from-black via-black to-black/95" id="impact">
+        <Sseperator />
 
-              <div className="mt-8 flex justify-center gap-3">
-                {[0, 1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="h-3 w-12 rounded-full bg-[#610094]/60"
-                    animate={isMemoryHover ? { opacity: [0.3, 1, 0.3] } : {}}
-                    transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.15 }}
-                  />
-                ))}
-              </div>
-            </motion.div>
+        <motion.div
+          ref={impactRef}
+          initial={{ opacity: 0, y: 50 }}
+          animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="container mx-auto flex flex-col items-center gap-12"
+        >
+          <SectionSeperator badgeText="Business Impact" />
 
-            {/* Observability */}
-            <motion.div
-              onMouseEnter={() => setIsObserveHover(true)}
-              onMouseLeave={() => setIsObserveHover(false)}
-              className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-6 backdrop-blur-xl"
-              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(63,0,113,0.25)" }}
-            >
-              <h3 className="text-2xl font-semibold">Observability & Guardrails</h3>
-              <p className="mt-2 text-sm text-zinc-400">
-                Monitor decisions, failures, retries, and cost in real time.
-              </p>
-
-              <div className="mt-8 flex items-end justify-center gap-2 h-20">
-                {[20, 35, 50, 30, 60].map((h, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-4 rounded bg-[#610094]/70"
-                    style={{ height: h }}
-                    animate={isObserveHover ? { height: [h, h + 20, h] } : {}}
-                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
-                  />
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Integration + Earth */}
-            <motion.div
-              onMouseEnter={() => setIsIntegrationHover(true)}
-              onMouseLeave={() => setIsIntegrationHover(false)}
-              className="col-span-12 rounded-xl border border-white/10 bg-black/40 p-6 backdrop-blur-xl"
-            >
-              <h3 className="text-2xl font-semibold">Integration-First by Design</h3>
-              <p className="mt-2 max-w-xl text-sm text-zinc-400">
-                Agents run inside your existing stack — no rip and replace.
-              </p>
-
-              <div className="relative mt-6 flex justify-center">
-                <div className="relative w-full max-w-[420px] aspect-[1/1.15]">
-                  <Suspense fallback={<div className="absolute inset-0 rounded-full bg-white/5" />}>
-                    <Earth
-                      baseColor={baseColor}
-                      glowColor={glowColor}
-                      markerColor={[0, 0, 0]}
-                      dark={dark}
-                    />
-                  </Suspense>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+            {BUSINESS_IMPACT.map((item, i) => (
+              <motion.div
+                key={i}
+                className="group rounded-xl border border-white/5 bg-black/40 backdrop-blur-xl p-6 hover:border-[#610094]/30 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+              >
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="text-lg font-light text-[#610094]/60 group-hover:text-[#610094] transition-colors min-w-fit">
+                    {item.num}
+                  </span>
+                  <h3 className="text-base font-semibold text-white/90 group-hover:text-[#8B3FA6] transition-colors">{item.title}</h3>
                 </div>
-              </div>
-            </motion.div>
+                <p className="text-sm text-white/40 leading-relaxed pl-8 group-hover:text-white/50 transition-colors">
+                  {item.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
-        </FollowerPointerCard>
-      </motion.div>
-    </section>
+        </motion.div>
+      </section>
+    </>
   )
 }

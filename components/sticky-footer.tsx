@@ -66,9 +66,9 @@ export function StickyFooter() {
             <div
               className="
                 absolute
-                top-6 right-6
+                hidden sm:flex
                 sm:top-auto sm:bottom-6 sm:right-8
-                flex flex-col sm:flex-row items-end sm:items-center gap-4 sm:gap-8
+                flex-col sm:flex-row items-end sm:items-center gap-4 sm:gap-8
               "
             >
               <div className="flex items-center gap-4 text-white">
