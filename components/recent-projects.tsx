@@ -102,7 +102,7 @@ export default function RecentProjects({ onContact }: { onContact?: () => void }
             <motion.div 
               animate={{ y: [10, -10, 10] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className="absolute -left-12 bottom-24 z-20 hidden md:flex items-center gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-emerald-400 shadow-xl backdrop-blur-md"
+              className="absolute -left-14 md:-left-24 bottom-24 z-20 hidden md:flex items-center gap-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-emerald-400 shadow-xl backdrop-blur-md"
             >
               <div className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
               Lead Captured
