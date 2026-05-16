@@ -4,7 +4,6 @@ import Sseperator from "./ui/seperator"
 import { SectionSeperator } from "./ui/section-seperator"
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-import { FollowerPointerCard } from "./ui/following-pointer"
 import { cn } from "@/lib/utils"
 
 const CAPABILITIES = [
@@ -90,7 +89,6 @@ export default function CoreCapabilitiesInteractive() {
         >
           <SectionSeperator badgeText="Core Capabilities" />
 
-          <FollowerPointerCard title="Formyx Platform">
             <div className="grid grid-cols-12 gap-6">
               {CAPABILITIES.map((cap, i) => (
                   <motion.div
@@ -111,7 +109,6 @@ export default function CoreCapabilitiesInteractive() {
                   </motion.div>
               ))}
             </div>
-          </FollowerPointerCard>
         </motion.div>
       </section>
 

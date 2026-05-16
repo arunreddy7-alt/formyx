@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, MotionValue } from "framer-motion";
 
 // Locations data
@@ -13,12 +13,12 @@ const COUNTRIES = [
 ];
 
 // Extracted component to avoid calling hooks inside a map loop
-function CountryWheelItem({ country, idx, smoothProgress, activeIndex, totalLength }: { 
-    country: any, idx: number, smoothProgress: MotionValue<number>, activeIndex: number, totalLength: number 
+function CountryWheelItem({ country, idx, smoothProgress, activeIndex, totalLength, isMobile }: { 
+    country: any, idx: number, smoothProgress: MotionValue<number>, activeIndex: number, totalLength: number, isMobile: boolean 
 }) {
     const y = useTransform(smoothProgress, (p) => {
         const diff = (p * (totalLength - 1)) - idx;
-        return diff * -120;
+        return diff * (isMobile ? -75 : -120); // Tighter stacking on mobile
     });
     
     const rotateX = useTransform(smoothProgress, (p) => {
@@ -34,9 +34,9 @@ function CountryWheelItem({ country, idx, smoothProgress, activeIndex, totalLeng
     return (
         <motion.div 
             style={{ y, rotateX, scale, transformStyle: "preserve-3d" }}
-            className="absolute left-0 w-full flex items-center justify-start origin-left"
+            className="absolute left-0 w-full flex items-center justify-center md:justify-start origin-center md:origin-left"
         >
-           <h2 className={`text-5xl md:text-7xl font-bold tracking-tight whitespace-nowrap transition-all duration-700 ${activeIndex === idx ? 'text-white opacity-100' : 'text-gray-500 opacity-40'}`}>
+           <h2 className={`text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight whitespace-nowrap transition-all duration-700 ${activeIndex === idx ? 'text-white opacity-100' : 'text-gray-500 opacity-40'}`}>
                {country.name}
            </h2>
         </motion.div>
@@ -45,6 +45,15 @@ function CountryWheelItem({ country, idx, smoothProgress, activeIndex, totalLeng
 
 export default function GlobalClients() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+      // Small check for ensuring we only run UI logic based on mobile limits
+      const checkMobile = () => setIsMobile(window.innerWidth < 768);
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+      return () => window.removeEventListener("resize", checkMobile);
+  }, []);
   
   // Track scroll progress within the container
   const { scrollYProgress } = useScroll({
@@ -57,6 +66,7 @@ export default function GlobalClients() {
   
   const [activeIndex, setActiveIndex] = useState(0);
   
+  // Drive the active index purely off scroll
   useMotionValueEvent(smoothProgress, "change", (latest) => {
       const index = Math.min(
           COUNTRIES.length - 1,
@@ -64,6 +74,9 @@ export default function GlobalClients() {
       );
       setActiveIndex(index);
   });
+
+  // Moves the description up slowly as the scroll reaches the very end (mobile only to close gap)
+  const descriptionY = useTransform(smoothProgress, [0.8, 1], [0, isMobile ? -100 : 0]);
 
   return (
     <section ref={containerRef} className="relative h-[300vh] bg-[#05000a] text-white">
@@ -80,13 +93,13 @@ export default function GlobalClients() {
                     Borderless Scale <br className="md:hidden" />
                     for <span className="bg-gradient-to-b from-[#610094] to-[#3F0071] bg-clip-text text-transparent italic">Maximum Impact</span>
                 </h2>
-                <p className="mt-6 text-sm md:text-base text-gray-400 max-w-xl mx-auto font-medium">
+                <p className="mt-4 md:mt-6 text-xs md:text-base text-gray-400 max-w-xl mx-auto font-medium">
                     Deploying next-generation infrastructure across strategic global hubs, guaranteeing seamless operational continuity everywhere.
                 </p>
             </div>
 
             {/* The 4-part layout precisely mimicking the user's reference image */}
-            <div className="w-full max-w-[1500px] mx-auto px-6 md:px-12 grid grid-cols-12 gap-8 items-center h-full relative z-10 pt-10">
+            <div className="w-full max-w-[1500px] mx-auto px-6 md:px-12 flex flex-col md:grid md:grid-cols-12 gap-4 md:gap-8 items-center h-full relative z-10 pt-32 md:pt-10 pb-12">
                 
                 {/* COLUMN 1: Editorial Micro-Label ("They trust us") */}
                 <div className="col-span-12 md:col-span-2 hidden md:block">
@@ -97,12 +110,12 @@ export default function GlobalClients() {
 
                 {/* COLUMN 2: 3D Perspective Country Names Wheel */}
                 <div 
-                  className="col-span-12 md:col-span-5 relative h-[60vh] flex flex-col justify-center" 
+                  className="w-full md:col-span-5 relative h-[50vh] md:h-[60vh] flex flex-col justify-center mt-6 md:mt-0" 
                   style={{ perspective: "1500px" }}
                 >
                     <div 
-                       className="relative w-full h-full flex items-center" 
-                       style={{ transform: "rotateY(10deg)", transformStyle: "preserve-3d" }}
+                       className="relative w-full h-full flex items-center md:items-center justify-center md:justify-start" 
+                       style={{ transform: isMobile ? "rotateY(0deg)" : "rotateY(10deg)", transformStyle: "preserve-3d" }}
                     >
                         {COUNTRIES.map((country, idx) => (
                             <CountryWheelItem 
@@ -112,13 +125,14 @@ export default function GlobalClients() {
                                 smoothProgress={smoothProgress} 
                                 activeIndex={activeIndex}
                                 totalLength={COUNTRIES.length}
+                                isMobile={isMobile}
                             />
                         ))}
                     </div>
                 </div>
 
                 {/* COLUMN 3 & 4: Static Logo & Description Text */}
-                <div className="col-span-12 md:col-span-5 h-full relative flex items-center justify-between">
+                <div className="w-full md:col-span-5 h-[20vh] md:h-full relative flex items-center justify-center md:justify-between">
                     
                     {/* The static "Logo" equivalent showing the currently active country seamlessly aligned in the center right */}
                     <div className="absolute left-0 w-64 h-20 overflow-hidden hidden lg:block">
@@ -135,11 +149,14 @@ export default function GlobalClients() {
                     </div>
 
                     {/* The typography description pushed to the right, exactly matching the reference cropped image */}
-                    <div className="relative z-20 ml-auto w-full max-w-[280px] text-left mt-[30vh] md:mt-0">
+                    <motion.div 
+                        style={{ y: descriptionY }} 
+                        className="relative z-20 w-full md:ml-auto max-w-[320px] md:max-w-[280px] text-center md:text-left mt-auto md:mt-0 px-4 md:px-0"
+                    >
                          <p className="text-[#a0a0a0] text-sm md:text-base leading-relaxed font-normal antialiased">
                              From multinational companies to independent brands, we have been fortunate to work in a diversity of projects and clients.
                          </p>
-                    </div>
+                    </motion.div>
 
                 </div>
             </div>
