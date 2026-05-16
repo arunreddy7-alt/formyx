@@ -16,6 +16,7 @@ import Popup from "@/components/popup"
 import Industries from "@/components/industries"
 import Features from "@/components/features"
 import RecentProjects from "@/components/recent-projects"
+import GlobalClients from "@/components/global-clients"
 
 export default function HomePage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -34,6 +35,7 @@ export default function HomePage() {
 
       <Features />
       <RecentProjects onContact={() => setIsPopupOpen(true)} />
+      <GlobalClients />
       <CoreCapabilities />
       <WhoWeBuildFor />
       <Marquee />
