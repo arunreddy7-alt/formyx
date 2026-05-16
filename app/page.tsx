@@ -33,7 +33,7 @@ export default function HomePage() {
       <Hero onContact={() => setIsPopupOpen(true)} />
 
       <Features />
-      <RecentProjects />
+      <RecentProjects onContact={() => setIsPopupOpen(true)} />
       <CoreCapabilities />
       <WhoWeBuildFor />
       <Marquee />
