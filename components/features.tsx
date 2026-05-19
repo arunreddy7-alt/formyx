@@ -44,11 +44,9 @@ function ScrambleText({ text, isHovering }: { text: string, isHovering: boolean 
 }
 
 const features = [
-  { title: "GPT CONVERSATIONS", description: "Natural, context-aware AI that understands complex customer queries." },
   { title: "OMNICHANNEL MESSAGING", description: "Website, WhatsApp, Messenger, Instagram — one unified inbox." },
   { title: "AI LEAD QUALIFICATION", description: "Automatically score and qualify leads based on conversation signals." },
   { title: "APPOINTMENT AUTOMATION", description: "Check availability, book slots, send reminders — hands-free." },
-  { title: "SMART WORKFLOW ENGINE", description: "Build multi-step automations triggered by conversation events." },
   { title: "EASY CRM INTEGRATION", description: "Manage leads, conversations, and pipeline in one place." },
   { title: "POWERFUL INTEGRATIONS", description: "Connect with Zapier, HubSpot, Salesforce, Calendly, and more." },
   { title: "VOICE AI", description: "AI-powered voice interactions for phone-based workflows." },

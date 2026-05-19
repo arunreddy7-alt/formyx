@@ -90,16 +90,6 @@ export default function Hero({ onContact }: { onContact: () => void }) {
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center justify-center pointer-events-none">
         <div className="max-w-3xl text-center flex flex-col items-center">
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="mb-8"
-          >
-            <div className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-xs font-medium tracking-widest text-[#d08bff] uppercase backdrop-blur-md">
-              Intelligent AI Automation
-            </div>
-          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 10 }}

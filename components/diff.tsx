@@ -1,115 +1,46 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { SectionSeperator } from "./ui/section-seperator"
+import Sseperator from "./ui/seperator"
 
 export default function WhatMakesUsDifferent() {
-  const containerRef = useRef<HTMLElement>(null)
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  })
-
-  // Map scroll progress to the width of the active progress bar (from 0% to 100%)
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
-
-  const steps = [
-    {
-      id: "01",
-      title: "Systems That Adapt",
-      text: "We don't sell tools. We design systems that respect how your teams already work.",
-    },
-    {
-      id: "02",
-      title: "Transparent & Auditable",
-      text: "Every workflow is transparent, auditable, and built with human oversight where it matters.",
-    },
-    {
-      id: "03",
-      title: "Total Ownership",
-      text: "You own the logic, the data, and the future evolution of what we build.",
-    },
-  ]
-
   return (
-    <section ref={containerRef} className="relative bg-[#020005] py-32 border-t border-white/5" id="difference">
-      <div className="container mx-auto px-6 max-w-[1400px]">
-        {/* We make the parent relative for the sticky element to track within */}
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 relative items-start">
-          
-          {/* Left Column (Sticky) */}
-          <div className="lg:w-[45%] flex flex-col pt-4 lg:sticky lg:top-40 z-10 hidden md:flex">
-             {/* Dynamic Progress Bar Header */}
-             <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="flex items-center w-full max-w-sm mb-12 relative"
-             >
-                 {/* Background track line */}
-                 <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10 -translate-y-1/2 z-0" />
-                 {/* Active animated line bound to scroll progress */}
-                 <motion.div 
-                    style={{ width: progressWidth }}
-                    className="absolute top-1/2 left-0 h-[2px] bg-gradient-to-r from-[#610094] to-[#b255ff] -translate-y-1/2 z-0" 
-                 />
-                 
-                 <div className="w-full flex justify-between z-10 relative">
-                     {["01", "02", "03"].map((num, i) => (
-                         <div key={num} className="bg-[#020005] px-3">
-                             <span className={`text-[10px] sm:text-xs font-mono font-bold tracking-widest ${i === 0 ? 'text-[#b255ff]' : 'text-white/40'}`}>
-                                 {num}
-                             </span>
-                         </div>
-                     ))}
-                 </div>
-             </motion.div>
+    <section
+      className="relative bg-black py-32 overflow-hidden -mt-px"
+      id="difference"
+    >
+      <Sseperator />
+      <SectionSeperator badgeText="Our Philosophy" />
 
-             <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-5xl md:text-[64px] font-bold leading-[1.05] tracking-tight text-white mb-8 pr-12"
-             >
-                Automation should adapt to{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#610094] to-[#b255ff]">
-                  your business
-                </span>
-                <br />
-                not the other way around
-             </motion.h2>
-          </div>
+      <div className="container mx-auto px-4 mt-24 max-w-4xl text-center relative">
+        <div className="relative z-10 space-y-8">
+          <h2 className="text-5xl md:text-6xl font-semibold leading-tight tracking-tight">
+            Automation should adapt to{" "}
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-[#610094] to-[#8B3FA6]">
+              your business
+            </span>
+            <br />
+            not the other way around
+          </h2>
 
-          {/* Right Column (Scrolls past) */}
-          <div className="lg:w-[55%] flex flex-col">
-              {/* Added bottom padding so the last item allows full scrolling to reach 100% progress */}
-              <div className="pb-32 lg:pb-64">
-                {steps.map((step, idx) => (
-                    <motion.div 
-                        key={idx} 
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        className={`flex flex-col sm:flex-row gap-6 sm:gap-12 py-16 lg:py-32 ${idx !== 0 ? 'border-t border-white/5' : 'pt-16'}`}
-                    >
-                        <div className="text-[#b255ff] text-xl font-mono font-bold shrink-0 pt-1">
-                            {step.id}
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <h3 className="text-3xl md:text-5xl font-bold text-white tracking-tight">
-                                {step.title}
-                            </h3>
-                            <p className="text-[#888] leading-relaxed text-base md:text-lg pr-4 font-light mt-4">
-                                {step.text}
-                            </p>
-                        </div>
-                    </motion.div>
-                ))}
+          <div className="space-y-6 max-w-2xl mx-auto">
+            {[
+              "We don't sell tools. We design systems that respect how your teams already work.",
+              "Every workflow is transparent, auditable, and built with human oversight where it matters.",
+              "You own the logic, the data, and the future evolution of what we build.",
+            ].map((text, idx) => (
+              <div
+                key={idx}
+                className="group relative p-6 rounded-xl border border-white/8 bg-white/5 backdrop-blur-sm transition-all hover:border-white/20"
+              >
+                <p className="text-lg text-white/60 leading-relaxed group-hover:text-white/75 transition-colors">
+                  {text}
+                </p>
+
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-gradient-to-b from-[#610094] to-[#8B3FA6] rounded-full group-hover:h-8 transition-all duration-300" />
               </div>
+            ))}
           </div>
-
         </div>
       </div>
     </section>

@@ -13,7 +13,6 @@ import { StickyFooter } from "@/components/sticky-footer"
 import Popup from "@/components/popup"
 import Industries from "@/components/industries"
 import Features from "@/components/features"
-import RecentProjects from "@/components/recent-projects"
 
 export default function HomePage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -31,7 +30,6 @@ export default function HomePage() {
       <Hero onContact={() => setIsPopupOpen(true)} />
 
       <Features />
-      <RecentProjects onContact={() => setIsPopupOpen(true)} />
       <CoreCapabilities />
       <Marquee />
       <Industries />
