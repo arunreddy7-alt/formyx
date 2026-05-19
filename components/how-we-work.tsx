@@ -1,9 +1,19 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Type, Code2, Languages, Users, Database, ClipboardCheck, Network, Sparkles, Cpu, Activity, Zap, Workflow } from "lucide-react"
+import { useRef } from "react"
 
 export default function HowWeWork() {
+  const containerRef = useRef<HTMLElement>(null)
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  })
+
+  // Map scroll progress to text color opacity
+  const heroText = useTransform(scrollYProgress, [0, 0.2], ["rgba(255,255,255,0)", "rgba(255,255,255,1)"])
 
   const drawLeft = (sy: number) => {
     const mx = (190 + 300) / 2;
@@ -30,7 +40,7 @@ export default function HowWeWork() {
   ];
 
   return (
-    <section className="py-32 bg-[#020005] overflow-hidden relative font-sans text-white border-t border-white/5">
+    <section ref={containerRef} className="py-32 bg-[#020005] overflow-hidden relative text-white border-t border-white/5">
 
       {/* High Fidelity Typography Header */}
       <div className="container mx-auto px-6 mb-16 relative z-10">
@@ -39,14 +49,15 @@ export default function HowWeWork() {
             <div className="w-2.5 h-2.5 bg-gradient-to-br from-[#610094] to-[#3F0071]" />
             <span>HOW WE WORK & AUTOMATE</span>
           </div>
-          <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#610094] to-[#3F0071] hidden sm:block font-bold">
-                  // PROCESS FLOW
-          </div>
+      
         </div>
-        <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[1] text-white mb-6 lg:mb-12">
+        <motion.h2 
+            style={{ color: heroText }}
+            className="text-6xl md:text-8xl font-medium tracking-tight leading-[1] mb-16"
+          >
           Infinite scalable.<br />
           Logic architectures.
-        </h2>
+        </motion.h2>
       </div>
 
       {/* Heavy Violet Central Ambient Glow */}

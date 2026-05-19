@@ -96,9 +96,7 @@ export default function Features() {
                       <div className="w-2.5 h-2.5 bg-gradient-to-br from-[#610094] to-[#3F0071]" />
                       <span>PLATFORM FEATURES & CAPABILITIES</span>
                  </div>
-                 <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#610094] to-[#3F0071] hidden md:block font-bold mt-1.5 md:mt-0">
-                      // EVERYTHING INCLUDED
-                 </div>
+
              </div>
          </div>
 

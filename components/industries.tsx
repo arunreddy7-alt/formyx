@@ -47,9 +47,7 @@ const industries = [
   { title: "HEALTHCARE", description: "Appointment scheduling, patient intake, insurance queries, and follow-ups." },
   { title: "EDUCATION", description: "Admission inquiries, enrollment workflows, course recommendations." },
   { title: "HOSPITALITY", description: "Room booking, guest services, concierge automation, upsell offers." },
-  { title: "RETAIL", description: "Product discovery, order tracking, inventory checks, returns handling." },
   { title: "FINANCIAL SERVICES", description: "Loan applications, account queries, KYC automation, advisory support." },
-  { title: "ENTERPRISE", description: "Internal helpdesk, HR workflows, IT support automation, vendor management." },
   { title: "MANUFACTURING", description: "Product inquiries, distributor support, order tracking, service requests, and CRM/ERP-integrated automation." },
 ]
 
@@ -142,9 +140,7 @@ export default function Industries() {
               <div className="w-2.5 h-2.5 bg-gradient-to-br from-[#610094] to-[#3F0071]" />
               <motion.span style={{ color: subText }}>SUPPORTED INDUSTRIES & USE CASES</motion.span>
             </div>
-            <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#610094] to-[#3F0071] hidden md:block font-bold mt-1.5 md:mt-0">
-                      // COMPLETE COVERAGE
-            </div>
+            
           </div>
         </div>
 

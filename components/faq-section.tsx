@@ -66,7 +66,7 @@ export function FAQSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
-                    className="text-5xl md:text-[54px] font-bold text-white tracking-tighter leading-[1.05] mb-6"
+                    className="text-5xl md:text-6xl font-medium tracking-tight leading-[1] text-white mb-6"
                 >
                       What Problem Are You Trying to Solve?     
                 </motion.h2>

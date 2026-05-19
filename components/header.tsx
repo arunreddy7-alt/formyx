@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 
@@ -10,10 +10,25 @@ export default function Header({
   onContact: () => void
 }) {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const lastScrollY = useRef(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 40)
+    const onScroll = () => {
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 40)
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        // Scrolling down
+        setIsVisible(false)
+      } else if (currentScrollY < lastScrollY.current) {
+        // Scrolling up
+        setIsVisible(true)
+      }
+      lastScrollY.current = currentScrollY
+    }
+    
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -52,26 +67,25 @@ export default function Header({
     <>
       {/* ================= DESKTOP HEADER ================= */}
       <header
-        className={`sticky top-4 z-998 mx-auto hidden w-full items-center justify-between rounded-full
-        bg-black/70 backdrop-blur-sm border border-white/15 shadow-lg transition-all duration-300 md:flex
-        ${isScrolled ? "max-w-3xl px-2" : "max-w-5xl px-4"} py-2`}
+        className={`fixed top-0 left-0 right-0 z-[998] w-full hidden items-center justify-between
+        border-b border-white/5 transition-all duration-300 md:flex px-8 py-4
+        ${isScrolled ? "bg-[#050B14]/70 backdrop-blur-md" : "bg-transparent"}
+        ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
       >
         <Link
           href="/"
-          className={`font-semibold tracking-wide text-white cursor-pointer ${
-            isScrolled ? "ml-4" : ""
-          }`}
+          className={`font-black italic tracking-tighter text-2xl text-[#F5F5F0] cursor-pointer`}
         >
           FORMYX
         </Link>
 
-        <nav className="pointer-events-none absolute inset-0 hidden items-center justify-center gap-2 text-sm font-medium text-white/60 md:flex">
+        <nav className="absolute left-1/2 -translate-x-1/2 hidden items-center justify-center gap-8 text-[15px] font-medium text-white/70 md:flex">
           {NAV_ITEMS.map((item) => (
             item.href ? (
               <Link
                 key={item.label}
                 href={item.href}
-                className="pointer-events-auto px-4 py-2 cursor-pointer transition-colors hover:text-white"
+                className="cursor-pointer transition-colors hover:text-[#F5F5F0]"
               >
                 {item.label}
               </Link>
@@ -79,7 +93,7 @@ export default function Header({
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id as string)}
-                className="pointer-events-auto px-4 py-2 cursor-pointer transition-colors hover:text-white"
+                className="cursor-pointer transition-colors hover:text-[#F5F5F0]"
               >
                 {item.label}
               </button>
@@ -90,9 +104,7 @@ export default function Header({
         <div className="flex items-center gap-3">
           <button
             onClick={onContact}
-            className="cursor-pointer rounded-full px-4 py-2 text-sm font-medium text-white
-              bg-gradient-to-b from-[#610094] to-[#3F0071]
-              shadow-md transition-transform hover:-translate-y-0.5"
+            className="cursor-pointer rounded-md px-6 py-2 text-[15px] font-bold text-[#050B14] bg-[#F5F5F0] hover:bg-white transition-colors"
           >
             Contact Us
           </button>
@@ -101,14 +113,16 @@ export default function Header({
 
       {/* ================= MOBILE HEADER ================= */}
       <header
-        className="sticky top-4 z-[9999] mx-4 flex items-center justify-between rounded-full
-        bg-black/70 backdrop-blur-sm border border-white/15 shadow-lg px-4 py-3 md:hidden"
+        className={`fixed top-0 left-0 right-0 z-[9999] flex w-full items-center justify-between
+        border-b border-white/5 transition-all duration-300 px-4 py-3 md:hidden
+        ${isScrolled ? "bg-[#050B14]/70 backdrop-blur-md" : "bg-transparent"}
+        ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
       >
-        <Link href="/" className="font-semibold tracking-wide text-white">FORMYX</Link>
+        <Link href="/" className="font-black italic tracking-tighter text-xl text-[#F5F5F0]">FORMYX</Link>
 
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="cursor-pointer flex items-center justify-center w-10 h-10 rounded-full bg-white/5 border border-white/10"
+          className="cursor-pointer flex items-center justify-center w-10 h-10 rounded-md bg-white/5 border border-white/10"
           aria-label="Toggle menu"
         >
           <div className="flex flex-col justify-center w-5 h-5 space-y-1">
@@ -133,14 +147,14 @@ export default function Header({
 
       {/* ================= MOBILE MENU ================= */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-998 bg-black/90 backdrop-blur flex flex-col items-center justify-center gap-6 text-white text-lg">
+        <div className="fixed inset-0 z-998 bg-[#050B14] flex flex-col items-center justify-center gap-8 text-white/70 text-lg font-medium">
           {NAV_ITEMS.map((item) => (
             item.href ? (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="cursor-pointer transition-colors hover:text-[#610094]"
+                className="cursor-pointer transition-colors hover:text-[#F5F5F0]"
               >
                 {item.label}
               </Link>
@@ -148,7 +162,7 @@ export default function Header({
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id as string)}
-                className="cursor-pointer transition-colors hover:text-[#610094]"
+                className="cursor-pointer transition-colors hover:text-[#F5F5F0]"
               >
                 {item.label}
               </button>
@@ -160,9 +174,9 @@ export default function Header({
               setIsMobileMenuOpen(false)
               onContact()
             }}
-            className="cursor-pointer text-[#610094] font-medium"
+            className="cursor-pointer rounded-md px-8 py-3 text-lg font-bold text-[#050B14] bg-[#F5F5F0] hover:bg-white transition-colors mt-4"
           >
-            Contact
+            Contact Us
           </button>
         </div>
       )}

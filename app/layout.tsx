@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <ReactLenis root>
-        <body className={`${font.className} font antialiased`}>
+        <body className={`${font.className} font antialiased overflow-x-clip`}>
           {children}
           <Analytics />
         </body>
