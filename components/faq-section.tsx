@@ -44,76 +44,98 @@ export function FAQSection() {
   ]
 
   return (
-    <section id="faq" className="relative overflow-hidden py-24 pb-100 bg-black">
-      <Sseperator />
-
-      <div className="container mx-auto px-4">
-        <SectionSeperator badgeText="FAQs" />
-
-        <motion.h2
-          className="mx-auto mt-6 max-w-xl text-center text-4xl font-medium text-white md:text-[54px] md:leading-[60px]"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          Common{" "}
-          <span className="bg-gradient-to-b from-white via-[#610094] to-[#3F0071] bg-clip-text text-transparent">
-            questions
-          </span>{" "}
-          answered
-        </motion.h2>
-
-        <div className="mx-auto mt-12 flex max-w-xl flex-col gap-6">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              className="cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-[0px_2px_0px_0px_rgba(255,255,255,0.08)_inset] transition-all hover:border-white/20"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => toggleItem(index)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault()
-                  toggleItem(index)
-                }
-              }}
-            >
-              <div className="flex items-start justify-between">
-                <h3 className="pr-4 text-white font-medium">{faq.question}</h3>
-                <motion.div
-                  animate={{ rotate: openItems.includes(index) ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+    <section id="faq" className="relative overflow-hidden py-32 bg-[#020005]">
+      <div className="container mx-auto px-6 max-w-[1400px]">
+        
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32">
+            
+            {/* Left Side: Typography */}
+            <div className="lg:w-[35%] flex flex-col">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="text-[#b255ff] text-xs font-mono tracking-widest uppercase mb-6"
                 >
-                  {openItems.includes(index) ? (
-                    <Minus className="text-[#610094]" size={24} />
-                  ) : (
-                    <Plus className="text-[#610094]" size={24} />
-                  )}
+                    FREQUENTLY ASKED QUESTIONS
                 </motion.div>
-              </div>
+                
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    viewport={{ once: true }}
+                    className="text-5xl md:text-[54px] font-bold text-white tracking-tighter leading-[1.05] mb-6"
+                >
+                      What Problem Are You Trying to Solve?     
+                </motion.h2>
+                
+                <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="text-[#888] text-sm md:text-base leading-relaxed"
+                >
+                    Short answers to branding, AI automation, system integration, workflows, apps, and post-launch support.
+                </motion.p>
+            </div>
 
-              <AnimatePresence>
-                {openItems.includes(index) && (
-                  <motion.div
-                    className="mt-4  text-white/70 leading-relaxed overflow-hidden"
-                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                    animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                  >
-                    {faq.answer}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
+            {/* Right Side: Accordion */}
+            <div className="lg:w-[65%] flex flex-col mt-8 lg:mt-0">
+                {faqs.map((faq, index) => {
+                    const isOpen = openItems.includes(index)
+                    return (
+                        <div key={index} className="border-b border-white/10 overflow-hidden">
+                            
+                            {/* Item header */}
+                            <div 
+                                className="flex items-center justify-between py-8 cursor-pointer group" 
+                                onClick={() => toggleItem(index)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault()
+                                        toggleItem(index)
+                                    }
+                                }}
+                            >
+                                <div className="flex items-start gap-5 pr-8">
+                                    {/* The Square Bullet */}
+                                    <span className={`mt-2.5 w-2.5 h-2.5 flex-shrink-0 ${isOpen ? 'bg-[#b255ff]' : 'bg-white/20 group-hover:bg-white/40'} transition-colors duration-300`} />
+                                    
+                                    <h3 className={`text-lg md:text-[22px] tracking-tight font-medium transition-colors duration-300 ${isOpen ? 'text-[#b255ff]' : 'text-white'}`}>
+                                        {faq.question}
+                                    </h3>
+                                </div>
+                                <div className={`flex-shrink-0 transition-colors duration-300 ${isOpen ? 'text-[#b255ff]' : 'text-[#555] group-hover:text-white'}`}>
+                                    {isOpen ? <Minus size={20} strokeWidth={1.5} /> : <Plus size={20} strokeWidth={1.5} />}
+                                </div>
+                            </div>
+                            
+                            {/* Content */}
+                            <AnimatePresence>
+                                {isOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                                    >
+                                        <div className="pl-[30px] pr-8 pb-8 text-[#aaa] font-light leading-relaxed text-sm md:text-base">
+                                            {faq.answer}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                            
+                        </div>
+                    )
+                })}
+            </div>
+            
         </div>
       </div>
     </section>

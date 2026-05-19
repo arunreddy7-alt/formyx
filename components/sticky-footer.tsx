@@ -41,7 +41,7 @@ export function StickyFooter() {
           transition={{ duration: 0.35, ease: "easeOut" }}
         >
           <div className="relative h-full w-full overflow-hidden px-6 sm:px-12 py-6 sm:py-12">
-            
+
             {/* Brand Mark */}
             <motion.h2
               className="
@@ -66,9 +66,9 @@ export function StickyFooter() {
             <div
               className="
                 absolute
-                hidden sm:flex
-                sm:top-auto sm:bottom-6 sm:right-8
-                flex-col sm:flex-row items-end sm:items-center gap-4 sm:gap-8
+                bottom-6 left-6
+                sm:bottom-6 sm:top-auto sm:left-auto sm:right-8
+                flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8
               "
             >
               <div className="flex items-center gap-4 text-white">
@@ -82,7 +82,7 @@ export function StickyFooter() {
                   <Twitter className="h-5 w-5" />
                 </a>
               </div>
-              <div className="text-xs sm:text-sm text-white/60 text-right sm:text-left">
+              <div className="text-xs sm:text-sm text-white/60">
                 © {new Date().getFullYear()} Formyx Solutions. All rights reserved.
               </div>
             </div>

@@ -3,8 +3,8 @@ import { motion } from "framer-motion"
 
 const Marquee = () => {
   return (
-    <div className="w-full py-2 bg-[#3F0071]">
-      <div className="border-t-2 border-b-2 overflow-hidden whitespace-nowrap">
+    <div className="w-full py-4 bg-black text-white border-y border-white/10">
+      <div className="overflow-hidden whitespace-nowrap">
         <div className="flex">
           {[...Array(3)].map((_, i) => (
             <motion.h1
@@ -14,9 +14,9 @@ const Marquee = () => {
               transition={{
                 ease: "linear",
                 repeat: Infinity,
-                duration: 8,
+                duration: 10,
               }}
-              className="text-[10vw] leading-none py-5 pr-10 font-inherit"
+              className="text-[10vw] leading-none py-2 pr-10 font-bold tracking-tight"
             >
               FORMYX SOLUTIONS&nbsp;&nbsp;|&nbsp;&nbsp;
             </motion.h1>

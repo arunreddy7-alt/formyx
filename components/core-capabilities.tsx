@@ -2,8 +2,8 @@
 
 import Sseperator from "./ui/seperator"
 import { SectionSeperator } from "./ui/section-seperator"
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import React, { useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 const CAPABILITIES = [
@@ -28,6 +28,81 @@ const CAPABILITIES = [
       "Connect GPT, Claude, Llama, or proprietary models to your stack. We wire the best-fit model into your existing tools, APIs, and databases — no vendor lock-in, full flexibility.",
   },
 ]
+
+function DotIcon({ title, description, matrix }: { title: string, description: string, matrix: number[] }) {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <div 
+           className="relative group cursor-crosshair flex justify-center w-24"
+           onMouseEnter={() => setIsHovered(true)}
+           onMouseLeave={() => setIsHovered(false)}
+        >
+            <div className="grid grid-cols-7 gap-1 md:gap-[5px]">
+                {matrix.map((val, i) => (
+                    <div 
+                       key={i} 
+                       className={`w-[6px] h-[6px] md:w-[8px] md:h-[8px] rounded-full transition-all duration-300 ${val ? (isHovered ? 'bg-[#610094]' : 'bg-[#D0D0D0]') : 'bg-transparent'}`} 
+                    />
+                ))}
+            </div>
+
+            {/* Tooltip */}
+            <motion.div 
+               initial={{ opacity: 0, y: 10, scale: 0.95 }}
+               animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? -20 : 10, scale: isHovered ? 1 : 0.95 }}
+               transition={{ duration: 0.2 }}
+               className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 pointer-events-none min-w-[200px]"
+            >
+                <div className="bg-white text-black px-5 py-3 rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-center flex flex-col gap-1 border border-black/5">
+                    <span className="text-xs font-bold whitespace-nowrap">{title}</span>
+                    <span className="text-[10px] text-gray-500 leading-tight block w-[200px] whitespace-normal">
+                        {description}
+                    </span>
+                </div>
+            </motion.div>
+        </div>
+    )
+}
+
+function DecoDotIcon({ matrix }: { matrix: number[] }) {
+    return (
+        <div className="grid grid-cols-7 gap-1.5 md:gap-2">
+            {matrix.map((val, i) => (
+                <div 
+                   key={i} 
+                   className={`w-[6px] md:w-[8px] h-[6px] md:h-[8px] rounded-full transition-colors duration-500 ${val ? 'bg-white/40 group-hover:bg-[#D6A1D6]' : 'bg-transparent'}`} 
+                />
+            ))}
+        </div>
+    )
+}
+
+function ScrubText() {
+    const el = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: el,
+        offset: ["start 0.85", "start 0.25"]
+    });
+
+    const text = "We combine cutting-edge AI, strategic logic and automation to create bespoke workflows that drive your success.";
+    const words = text.split(" ");
+    
+    return (
+        <div ref={el} className="w-full lg:max-w-[1050px] text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] leading-[1.15] font-medium tracking-tight flex flex-wrap gap-x-2 md:gap-x-3 lg:gap-x-[14px] gap-y-1 lg:gap-y-1.5">
+            {words.map((word, i) => {
+                const start = i / words.length;
+                const end = start + (1 / words.length);
+                const colorOpacity = useTransform(scrollYProgress, [start, end], [0.15, 1]);
+                return (
+                    <motion.span key={i} style={{ opacity: colorOpacity }} className="text-[#111111]">
+                        {word}
+                    </motion.span>
+                )
+            })}
+        </div>
+    )
+}
 
 const BUSINESS_IMPACT = [
   {
@@ -77,7 +152,7 @@ export default function CoreCapabilitiesInteractive() {
   return (
     <>
       {/* ── Core Capabilities ── */}
-      <section className="relative py-40" id="features">
+      <section className="relative py-40 bg-black overflow-hidden" id="features">
         <Sseperator />
 
         <motion.div
@@ -85,67 +160,190 @@ export default function CoreCapabilitiesInteractive() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="container mx-auto flex flex-col items-center gap-12"
+          className="container mx-auto px-6 max-w-[1500px]"
         >
-          <SectionSeperator badgeText="Core Capabilities" />
+          <div className="flex justify-center mb-16">
+              <SectionSeperator badgeText="Core Capabilities" />
+          </div>
 
-            <div className="grid grid-cols-12 gap-6">
-              {CAPABILITIES.map((cap, i) => (
-                  <motion.div
-                    key={i}
-                    className="col-span-12 md:col-span-6 rounded-xl border border-white/10 bg-black/40 p-8 backdrop-blur-xl flex flex-col gap-4"
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 0 30px rgba(63,0,113,0.25)",
-                    }}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
-                    <h3 className="text-xl font-semibold md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#d08bff] to-[#610094]">{cap.title}</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed md:text-base">
-                      {cap.description}
-                    </p>
-                  </motion.div>
-              ))}
-            </div>
+          {/* High-Tech Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-[1400px] mx-auto mt-12 xl:mt-24">
+               {CAPABILITIES.map((cap, idx) => {
+                   const matrices = [
+                       // 1. Chip/Processor
+                       [
+                         0,1,0,1,0,1,0,
+                         1,1,1,1,1,1,1,
+                         0,1,0,0,0,1,0,
+                         1,1,0,1,0,1,1,
+                         0,1,0,0,0,1,0,
+                         1,1,1,1,1,1,1,
+                         0,1,0,1,0,1,0
+                       ],
+                       // 2. User
+                       [
+                         0,0,1,1,1,0,0,
+                         0,1,0,0,0,1,0,
+                         0,1,0,0,0,1,0,
+                         0,0,1,1,1,0,0,
+                         0,1,1,1,1,1,0,
+                         1,1,0,0,0,1,1,
+                         1,0,0,0,0,0,1
+                       ],
+                       // 3. Server
+                       [
+                         1,1,1,1,1,1,1,
+                         1,0,1,0,0,0,1,
+                         1,1,1,1,1,1,1,
+                         0,0,0,0,0,0,0,
+                         1,1,1,1,1,1,1,
+                         1,0,1,0,0,0,1,
+                         1,1,1,1,1,1,1
+                       ],
+                       // 4. Integration Plug
+                       [
+                         0,1,1,0,1,1,0,
+                         0,1,1,0,1,1,0,
+                         0,0,1,1,1,0,0,
+                         0,0,0,1,0,0,0,
+                         0,0,0,1,0,0,0,
+                         0,0,1,1,1,0,0,
+                         0,0,1,1,1,0,0
+                       ]
+                   ];
+
+                   return (
+                      <motion.div
+                          key={idx}
+                          initial="rest"
+                          whileHover="hover"
+                          animate="rest"
+                          className="relative z-10 w-full h-[360px] bg-[#050505] border border-white/5 p-8 group rounded-2xl overflow-hidden cursor-crosshair shadow-2xl"
+                      >
+                          {/* Tech Symbol */}
+                          <div className="absolute top-10 left-10 transition-transform duration-500 group-hover:scale-[1.15] origin-top-left">
+                              <DecoDotIcon matrix={matrices[idx]} />
+                          </div>
+
+                          {/* Content Container */}
+                          <div className="absolute bottom-8 left-8 right-8 pointer-events-none">
+                              <motion.h3 
+                                  variants={{ hover: { y: -8 }, rest: { y: 0 } }}
+                                  transition={{ duration: 0.4, ease: "easeOut" }}
+                                  className="text-2xl font-bold text-white leading-tight"
+                              >
+                                  {cap.title}
+                              </motion.h3>
+                              
+                              <motion.div 
+                                  variants={{ hover: { opacity: 1, y: 10 }, rest: { opacity: 0, y: 20 } }}
+                                  transition={{ duration: 0.4, ease: "easeOut", delay: 0.05 }}
+                                  className="absolute top-[80%] pt-2 left-0 w-full pointer-events-none"
+                              >
+                                  <p className="text-sm font-medium leading-relaxed text-[#A0A0A0]">
+                                      {cap.description}
+                                  </p>
+                              </motion.div>
+                          </div>
+
+                          {/* Hover tech glow */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#610094]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                      </motion.div>
+                   )
+               })}
+          </div>
         </motion.div>
       </section>
 
       {/* ── Business Impact ── */}
-      <section className="relative py-32 overflow-hidden bg-gradient-to-b from-black via-black to-black/95" id="impact">
-        <Sseperator />
-
+      <section className="relative py-32 md:py-48 bg-[#F3F3F3] text-[#111111] border-t border-black/10" id="impact">
         <motion.div
           ref={impactRef}
           initial={{ opacity: 0, y: 50 }}
           animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="container mx-auto flex flex-col items-center gap-12"
+          className="container mx-auto px-6 md:px-12 max-w-[1500px]"
         >
-          <SectionSeperator badgeText="Business Impact" />
+           <div className="flex flex-col md:flex-row gap-12 md:gap-24 mb-16 md:mb-24">
+               <div className="w-full md:w-[250px] shrink-0 text-[10px] md:text-xs tracking-widest font-mono text-[#888] uppercase pt-2">
+                   OUR BUSINESS IMPACT
+               </div>
+               
+               <ScrubText />
+           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
-            {BUSINESS_IMPACT.map((item, i) => (
-              <motion.div
-                key={i}
-                className="group rounded-xl border border-white/5 bg-black/40 backdrop-blur-xl p-6 hover:border-[#610094]/30 transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={isImpactInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-              >
-                <div className="flex items-start gap-3 mb-3">
-                  <span className="text-lg font-light text-[#610094]/60 group-hover:text-[#610094] transition-colors min-w-fit">
-                    {item.num}
-                  </span>
-                  <h3 className="text-base font-semibold text-white/90 group-hover:text-[#8B3FA6] transition-colors">{item.title}</h3>
-                </div>
-                <p className="text-sm text-white/40 leading-relaxed pl-8 group-hover:text-white/50 transition-colors">
-                  {item.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+           {/* The Dot Matrix Icons Row */}
+           <div className="flex flex-wrap lg:flex-nowrap items-center justify-between w-full max-w-[1500px] gap-8 md:gap-4 mx-auto pt-8">
+               {BUSINESS_IMPACT.map((item, idx) => (
+                   <DotIcon 
+                      key={idx} 
+                      title={item.title} 
+                      description={item.description} 
+                      matrix={
+                          // 1: Heart
+                          idx === 0 ? [
+                            0,1,1,0,1,1,0,
+                            1,1,1,1,1,1,1,
+                            1,1,1,1,1,1,1,
+                            0,1,1,1,1,1,0,
+                            0,0,1,1,1,0,0,
+                            0,0,0,1,0,0,0,
+                            0,0,0,0,0,0,0
+                          ] :
+                          // 2: X shape
+                          idx === 1 ? [
+                            1,1,0,0,0,1,1,
+                            0,1,1,0,1,1,0,
+                            0,0,1,1,1,0,0,
+                            0,0,0,1,0,0,0,
+                            0,0,1,1,1,0,0,
+                            0,1,1,0,1,1,0,
+                            1,1,0,0,0,1,1
+                          ] :
+                          // 3: Coffee cup
+                          idx === 2 ? [
+                            0,0,1,0,1,0,0,
+                            0,1,0,0,0,1,0,
+                            0,0,0,0,0,0,0,
+                            1,1,1,1,1,1,1,
+                            1,1,1,1,1,1,1,
+                            1,1,1,1,1,1,0,
+                            0,1,1,1,1,0,0
+                          ] :
+                          // 4: Sparkle
+                          idx === 3 ? [
+                            0,0,0,1,0,0,0,
+                            0,0,0,1,0,0,0,
+                            0,0,1,1,1,0,0,
+                            1,1,1,1,1,1,1,
+                            0,0,1,1,1,0,0,
+                            0,0,0,1,0,0,0,
+                            0,0,0,1,0,0,0
+                          ] :
+                          // 5: House
+                          idx === 4 ? [
+                            0,0,0,1,0,0,0,
+                            0,0,1,1,1,0,0,
+                            0,1,1,1,1,1,0,
+                            1,1,1,1,1,1,1,
+                            1,1,0,0,0,1,1,
+                            1,1,0,0,0,1,1,
+                            1,1,0,0,0,1,1
+                          ] :
+                          // 6: Briefcase
+                          [
+                            0,0,1,1,1,0,0,
+                            0,0,1,0,1,0,0,
+                            1,1,1,1,1,1,1,
+                            1,0,0,0,0,0,1,
+                            1,0,0,0,0,0,1,
+                            1,0,0,0,0,0,1,
+                            1,1,1,1,1,1,1
+                          ]
+                      }
+                   />
+               ))}
+           </div>
         </motion.div>
       </section>
     </>

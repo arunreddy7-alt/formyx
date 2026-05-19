@@ -1,329 +1,241 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Plug, Zap, Braces, Database, Network, Bell, Mail, Webhook, Box, Lock, Activity, CheckCircle, Server } from "lucide-react"
+import { Type, Code2, Languages, Users, Database, ClipboardCheck, Network, Sparkles, Cpu, Activity, Zap, Workflow } from "lucide-react"
 
 export default function HowWeWork() {
+
+  const drawLeft = (sy: number) => {
+    const mx = (190 + 300) / 2;
+    return `M 190,${sy} C ${mx},${sy} ${mx},250 300,250`;
+  };
+
+  const drawRight = (ey: number) => {
+    const mx = (700 + 810) / 2;
+    return `M 700,250 C ${mx},250 ${mx},${ey} 810,${ey}`;
+  };
+
+  const leftNodes = [
+    { id: 'input', label: 'Input', y: 100, icon: Type },
+    { id: 'code', label: 'Code', y: 170, icon: Code2 },
+    { id: 'language', label: 'Language', y: 330, icon: Languages },
+    { id: 'agents_l', label: 'Agents', y: 400, icon: Users },
+  ];
+
+  const rightNodes = [
+    { id: 'datasets', label: 'Datasets', y: 100, icon: Database },
+    { id: 'agents_r', label: 'Agents', y: 170, icon: Users },
+    { id: 'assessments', label: 'Assessments', y: 330, icon: ClipboardCheck },
+    { id: 'api', label: 'API', y: 400, icon: Network },
+  ];
+
   return (
-    <section id="process" className="relative w-full h-[750px] sm:h-[800px] lg:h-[1200px] bg-[#020005] overflow-hidden">
-      
-      {/* Deep Space Background Glows */}
-      <div className="absolute top-0 lg:top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#b255ff]/10 blur-[150px] mix-blend-screen rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 lg:top-1/2 right-0 lg:right-1/4 translate-x-1/4 -translate-y-1/2 w-[1000px] h-[1000px] bg-[#610094]/10 blur-[150px] mix-blend-screen rounded-full pointer-events-none" />
-      {/* Animated Vertical Light Beams (Desktop only) */}
-      <motion.div animate={{ opacity: [0, 0.1, 0] }} transition={{ duration: 5, repeat: Infinity }} className="hidden lg:block absolute left-[30%] top-0 bottom-0 w-[100px] bg-gradient-to-b from-transparent via-[#00ffff]/10 to-transparent blur-2xl pointer-events-none" />
-      <motion.div animate={{ opacity: [0, 0.15, 0] }} transition={{ duration: 7, repeat: Infinity, delay: 2 }} className="hidden lg:block absolute left-[60%] top-0 bottom-0 w-[150px] bg-gradient-to-b from-transparent via-[#ff00a0]/10 to-transparent blur-3xl pointer-events-none" />
+    <section className="py-32 bg-[#020005] overflow-hidden relative font-sans text-white border-t border-white/5">
 
-      {/* 2D Floating Header */}
-      <div className="relative lg:absolute top-16 lg:top-24 left-0 right-0 z-50 flex flex-col items-center text-center px-4 pointer-events-none mb-16 lg:mb-0">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-3 sm:px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-[0_0_20px_rgba(208,139,255,0.2)]"
-        >
-          <div className="w-2 h-2 rounded-full bg-[#b255ff] animate-pulse" />
-          <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-[#d08bff] uppercase">Complete Workflows</span>
-        </motion.div>
-
-        <motion.h2
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ delay: 0.1 }}
-           className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-2 leading-[1.1] sm:leading-[1.05]"
-        >
-          Infinite scalable <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d08bff] via-[#8B3FA6] to-[#610094] italic">
-            Architectures
-          </span>
-        </motion.h2>
+      {/* High Fidelity Typography Header */}
+      <div className="container mx-auto px-6 mb-16 relative z-10">
+        <div className="flex items-center justify-between w-full max-w-[1500px] mx-auto text-[10px] md:text-sm tracking-widest font-mono text-[#888] uppercase border-b border-white/5 pb-4 mb-8">
+          <div className="flex items-center gap-3">
+            <div className="w-2.5 h-2.5 bg-gradient-to-br from-[#610094] to-[#3F0071]" />
+            <span>HOW WE WORK & AUTOMATE</span>
+          </div>
+          <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#610094] to-[#3F0071] hidden sm:block font-bold">
+                  // PROCESS FLOW
+          </div>
+        </div>
+        <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-tight leading-[1] text-white mb-6 lg:mb-12">
+          Infinite scalable.<br />
+          Logic architectures.
+        </h2>
       </div>
 
-      {/* =========================================
-          DESKTOP 3D ISOMETRIC SCENE (lg and up)
-          ========================================= */}
-      <div 
-        className="hidden lg:flex absolute inset-0 items-center justify-center pointer-events-none" 
-        style={{ perspective: "2500px" }}
-      >
-        <div 
-          className="relative w-[1300px] h-[800px] flex items-center justify-center scale-90 xl:scale-100 origin-center pointer-events-none translate-x-14 2xl:translate-x-22"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {/* Continuous Slow Rotating 3D World */}
-          <motion.div
-            style={{ transformStyle: "preserve-3d" }}
-            initial={{ rotateX: 60, rotateZ: -45, y: -20 }}
-            animate={{ rotateZ: [-45, -35, -45], y: [30, 50, 30] }}
-            transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0"
-          >
-          {/* Top Floor Grid Layer */}
-          <div 
-            className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0c_2px,transparent_2px),linear-gradient(to_bottom,#ffffff0c_2px,transparent_2px)] bg-[size:4rem_4rem] border-2 border-white/10 rounded-3xl" 
-            style={{ transform: "translateZ(-80px)", boxShadow: "inset 0 0 150px rgba(0,0,0,0.9), 0 0 50px rgba(178,85,255,0.1)" }} 
-          />
-          {/* Deep Subfloor Grid */}
-          <div 
-            className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_4px,transparent_4px),linear-gradient(to_bottom,#ffffff05_4px,transparent_4px)] bg-[size:8rem_8rem] rounded-3xl" 
-            style={{ transform: "translateZ(-200px)", filter: "blur(2px)" }} 
-          />
+      {/* Heavy Violet Central Ambient Glow */}
+      <div className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] md:w-[1200px] h-[600px] bg-gradient-to-r from-[#610094]/10 via-[#b255ff]/5 to-[#3F0071]/10 blur-[150px] mix-blend-screen rounded-[100%] pointer-events-none" />
 
-          {/* SVG Connection Wires on the Top Floor */}
-          <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ transform: "translateZ(-80px)" }}>
+      {/* Massive Responsive SVG Architecture Diagram */}
+      <div className="w-full max-w-[1400px] mx-auto px-2 md:px-6 relative z-10">
+
+        <div className="relative w-full aspect-[16/10] md:aspect-[2/1] lg:aspect-[21/9]">
+
+          {/* Massive Central Glow for Architecture Core */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40%] h-[30%] bg-gradient-to-br from-[#610094]/30 to-[#3F0071]/30 blur-[80px] mix-blend-screen rounded-full pointer-events-none" />
+
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <linearGradient id="wire-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#d08bff" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#00ffff" stopOpacity="0.6" />
+              <linearGradient id="flow-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#610094" />
+                <stop offset="100%" stopColor="#b255ff" />
               </linearGradient>
-              <linearGradient id="wire-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#d08bff" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#ff00a0" stopOpacity="0.6" />
+              <linearGradient id="flow-gradient-right" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#b255ff" />
+                <stop offset="100%" stopColor="#3F0071" />
               </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
             </defs>
 
-            {/* Base Wires */}
-            <g opacity="0.4">
-              <path d="M 150 400 L 450 400" fill="none" stroke="url(#wire-grad)" strokeWidth="6" />
-              <path d="M 450 400 C 600 400, 600 150, 750 150" fill="none" stroke="url(#wire-grad)" strokeWidth="6" />
-              <path d="M 450 400 L 750 400" fill="none" stroke="url(#wire-grad)" strokeWidth="6" />
-              <path d="M 450 400 C 600 400, 600 650, 750 650" fill="none" stroke="url(#wire-grad-2)" strokeWidth="6" />
-              <path d="M 750 150 L 1050 150" fill="none" stroke="#00ffff" strokeWidth="6" />
-              <path d="M 750 400 L 1050 400" fill="none" stroke="url(#wire-grad)" strokeWidth="6" />
-              <path d="M 750 650 L 1050 650" fill="none" stroke="#ff00a0" strokeWidth="6" />
-            </g>
+            {/* Left Side Base Lines */}
+            {leftNodes.map((n) => (
+              <path
+                key={`b-${n.id}`}
+                d={drawLeft(n.y)}
+                stroke="rgba(255,255,255,0.05)"
+                strokeWidth="1.5"
+                fill="none"
+              />
+            ))}
 
-            {/* Floor Anchors */}
-            <g opacity="0.8" filter="url(#glow)">
-              <circle cx="150" cy="400" r="10" fill="#d08bff" />
-              <circle cx="450" cy="400" r="10" fill="#00ffff" />
-              <circle cx="750" cy="150" r="10" fill="#00ffff" />
-              <circle cx="750" cy="400" r="10" fill="#b255ff" />
-              <circle cx="750" cy="650" r="10" fill="#ff00a0" />
-              <circle cx="1050" cy="150" r="10" fill="#00ffff" />
-              <circle cx="1050" cy="400" r="10" fill="#b255ff" />
-              <circle cx="1050" cy="650" r="10" fill="#ff00a0" />
-            </g>
+            {/* Left Side Animated Flow Lasers */}
+            {leftNodes.map((n, i) => (
+              <motion.path
+                key={`a-${n.id}`}
+                d={drawLeft(n.y)}
+                stroke="url(#flow-gradient)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="4 200"
+                animate={{ strokeDashoffset: [-200, 0] }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "linear", delay: i * 0.4 }}
+                fill="none"
+              />
+            ))}
 
-            {/* Animated Data Particles */}
-            <g filter="url(#glow)">
-              <motion.path d="M 150 400 L 450 400" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 285" animate={{ strokeDashoffset: [300, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }} />
-              <motion.path d="M 450 400 C 600 400, 600 150, 750 150" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 365" animate={{ strokeDashoffset: [380, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: "linear", delay: 0.5 }} />
-              <motion.path d="M 450 400 L 750 400" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 285" animate={{ strokeDashoffset: [300, 0] }} transition={{ repeat: Infinity, duration: 1.2, ease: "linear", delay: 0.7 }} />
-              <motion.path d="M 450 400 C 600 400, 600 650, 750 650" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 365" animate={{ strokeDashoffset: [380, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: "linear", delay: 0.2 }} />
-              <motion.path d="M 750 150 L 1050 150" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 285" animate={{ strokeDashoffset: [300, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear", delay: 2 }} />
-              <motion.path d="M 750 400 L 1050 400" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 285" animate={{ strokeDashoffset: [300, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear", delay: 1.8 }} />
-              <motion.path d="M 750 650 L 1050 650" fill="none" stroke="#fff" strokeWidth="6" strokeDasharray="15 285" animate={{ strokeDashoffset: [300, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear", delay: 1.6 }} />
-            </g>
+            {/* Right Side Base Lines */}
+            {rightNodes.map((n) => (
+              <path
+                key={`b-${n.id}`}
+                d={drawRight(n.y)}
+                stroke="rgba(255,255,255,0.05)"
+                strokeWidth="1.5"
+                fill="none"
+              />
+            ))}
+
+            {/* Right Side Animated Flow Lasers */}
+            {rightNodes.map((n, i) => (
+              <motion.path
+                key={`a-${n.id}`}
+                d={drawRight(n.y)}
+                stroke="url(#flow-gradient-right)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeDasharray="4 200"
+                animate={{ strokeDashoffset: [0, -200] }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "linear", delay: i * 0.4 }}
+                fill="none"
+              />
+            ))}
+
+            {/* Internal Core Connections */}
+            {/* Left Core -> LLMs */}
+            <path d="M 400,250 L 420,250" stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" />
+            <motion.path d="M 400,250 L 420,250" stroke="#b255ff" strokeWidth="2" strokeDasharray="3 15" animate={{ strokeDashoffset: [0, -18] }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }} />
+
+            {/* LLMs -> Right Core */}
+            <path d="M 580,250 L 600,250" stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" />
+            <motion.path d="M 580,250 L 600,250" stroke="#b255ff" strokeWidth="2" strokeDasharray="3 15" animate={{ strokeDashoffset: [0, -18] }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }} />
+
+            {/* --- FOREIGN OBJECTS (HTML INSIDE SVG FOR PERFECT ALIGNMENT) --- */}
+
+            {/* Left Nodes (Center X = 130, Width = 120, Heights = 40) */}
+            {leftNodes.map((n, i) => (
+              <foreignObject key={`fo-${n.id}`} x={130 - 60} y={n.y - 20} width="120" height="40" className="pointer-events-auto">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="w-full h-full bg-[#0A0510] border border-[#610094]/40 rounded-full flex items-center justify-start px-3 gap-2 shadow-[0_0_15px_rgba(97,0,148,0.2)] hover:border-[#b255ff]/70 cursor-pointer group"
+                >
+                  <n.icon className="w-3.5 h-3.5 text-[#b255ff] group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] font-medium tracking-wide text-white/90">{n.label}</span>
+                </motion.div>
+              </foreignObject>
+            ))}
+
+            {/* Right Nodes (Center X = 870, Width = 120, Heights = 40) */}
+            {rightNodes.map((n, i) => (
+              <foreignObject key={`fo-${n.id}`} x={870 - 60} y={n.y - 20} width="120" height="40" className="pointer-events-auto">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 + 0.4 }}
+                  viewport={{ once: true }}
+                  className="w-full h-full bg-[#0A0510] border border-[#610094]/40 rounded-full flex items-center justify-start px-3 gap-2 shadow-[0_0_15px_rgba(97,0,148,0.2)] hover:border-[#b255ff]/70 cursor-pointer group"
+                >
+                  <n.icon className="w-3.5 h-3.5 text-[#b255ff] group-hover:scale-110 transition-transform" />
+                  <span className="text-[10px] font-medium tracking-wide text-white/90">{n.label}</span>
+                </motion.div>
+              </foreignObject>
+            ))}
+
+            {/* Agent Core (Center X = 350, Box Width = 100) */}
+            <foreignObject x={350 - 50} y={250 - 70} width="100" height="140" className="pointer-events-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                viewport={{ once: true }}
+                className="w-full h-full flex flex-col items-center justify-center p-1"
+              >
+                <div className="w-[72px] h-[72px] bg-[#0A0510] border border-[#610094]/50 rounded-xl flex items-center justify-center p-[6px] shadow-[0_0_30px_rgba(97,0,148,0.3)] hover:scale-105 transition-transform duration-300">
+                  <div className="w-full h-full bg-[#0A0510] border-2 border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden group">
+                    <Zap className="w-5 h-5 text-white group-hover:text-amber-400 transition-colors" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#610094]/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </div>
+                </div>
+                <span className="text-[9px] font-mono text-amber-300/80 tracking-widest uppercase mt-4">Intake Node</span>
+              </motion.div>
+            </foreignObject>
+
+            {/* LLMs Central Node (Center X = 500, Box Width = 160) */}
+            <foreignObject x={500 - 80} y={250 - 60} width="160" height="120" className="pointer-events-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                viewport={{ once: true }}
+                className="w-full h-full flex flex-col items-center justify-center p-1"
+              >
+                <div className="w-[150px] h-[60px] bg-[#0A0510] border border-[#610094]/60 rounded-2xl flex items-center justify-center gap-1.5 px-2 shadow-[0_0_40px_rgba(97,0,148,0.4)] relative overflow-hidden">
+                  {/* Left Chip */}
+                  <div className="w-[40px] h-[40px] bg-black/40 border border-white/5 rounded-lg flex items-center justify-center hover:border-[#b255ff]/50 transition-colors">
+                    <Activity className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  {/* Core Chip */}
+                  <div className="w-[44px] h-[44px] bg-[#0A0510] border-2 border-white/20 rounded-xl flex items-center justify-center relative hover:scale-110 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[#610094]/40 to-[#3F0071]/40 animate-pulse rounded-xl" />
+                    <Cpu className="w-5 h-5 text-[#d08bff]" />
+                  </div>
+                  {/* Right Chip */}
+                  <div className="w-[40px] h-[40px] bg-black/40 border border-white/5 rounded-lg flex items-center justify-center hover:border-[#b255ff]/50 transition-colors">
+                    <Sparkles className="w-4 h-4 text-violet-400" />
+                  </div>
+                </div>
+                <span className="text-[9px] font-mono text-[#888] tracking-widest uppercase mt-4">Model Core</span>
+              </motion.div>
+            </foreignObject>
+
+            {/* Action Engine (Center X = 650, Box Width = 100) */}
+            <foreignObject x={650 - 50} y={250 - 70} width="100" height="140" className="pointer-events-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                viewport={{ once: true }}
+                className="w-full h-full flex flex-col items-center justify-center p-1"
+              >
+                <div className="w-[72px] h-[72px] bg-[#0A0510] border border-[#610094]/50 rounded-xl flex items-center justify-center p-[6px] shadow-[0_0_30px_rgba(97,0,148,0.3)] hover:scale-105 transition-transform duration-300">
+                  <div className="w-full h-full bg-[#0A0510] border-2 border-white/10 rounded-lg flex items-center justify-center relative overflow-hidden group">
+                    <Workflow className="w-5 h-5 text-white group-hover:text-emerald-400 transition-colors" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#610094]/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  </div>
+                </div>
+                <span className="text-[9px] font-mono text-emerald-300/80 tracking-widest uppercase mt-4">Execution Node</span>
+              </motion.div>
+            </foreignObject>
+
           </svg>
-
-          {/* Node 1: Webhook */}
-          <div className="absolute pointer-events-auto" style={{ left: 150, top: 400, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [30, 50, 30] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="relative -left-1/2 -top-1/2 w-[260px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#b255ff]/50 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(178,85,255,0.3)] hover:-translate-y-2 transition-all cursor-pointer group">
-              <div className="bg-[#190d26]/80 px-4 py-3 border-b border-[#b255ff]/30 flex items-center justify-between group-hover:bg-[#190d26]">
-                 <div className="flex items-center gap-2 text-white text-sm font-semibold"><Webhook className="w-5 h-5 text-[#d08bff]" /> Stripe Webhook</div>
-                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" />
-              </div>
-              <div className="p-4 space-y-3">
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold tracking-wider">Method</span><span className="text-emerald-400 font-mono text-xs font-bold">POST</span></div>
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold tracking-wider">Auth</span><span className="text-[#00ffff] flex items-center gap-1 text-xs"><Lock className="w-3 h-3" /> Valid</span></div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Node 2: Logic Router */}
-          <div className="absolute pointer-events-auto" style={{ left: 450, top: 400, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [50, 70, 50] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="relative -left-1/2 -top-1/2 w-[260px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#00ffff]/40 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,255,255,0.2)] hover:-translate-y-2 transition-all cursor-pointer group">
-              <div className="bg-white/5 px-4 py-3 border-b border-[#00ffff]/20 flex items-center gap-2 text-white text-sm font-semibold group-hover:bg-[#00ffff]/10 transition-colors">
-                 <Network className="w-5 h-5 text-[#00ffff]" /> Core Router
-              </div>
-              <div className="p-4 space-y-3">
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold tracking-wider">Active Rules</span><span className="text-white font-mono text-xs">14</span></div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Node 3: AI NLP */}
-          <div className="absolute pointer-events-auto" style={{ left: 750, top: 150, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [40, 60, 40] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="relative -left-1/2 -top-1/2 w-[260px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#00ffff]/30 rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,255,255,0.2)] hover:-translate-y-2 transition-all cursor-pointer">
-              <div className="bg-[#00ffff]/10 px-4 py-3 border-b border-[#00ffff]/20 flex justify-between items-center">
-                 <div className="flex items-center gap-2 text-white text-sm font-semibold"><Activity className="w-5 h-5 text-[#00ffff]" /> NLP Engine</div>
-                 <motion.div animate={{ rotate: 360 }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }}><Zap className="w-3 h-3 text-[#00ffff]" /></motion.div>
-              </div>
-              <div className="p-4 space-y-3">
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold">Model</span><span className="text-[#00ffff] font-mono text-xs">Cohere V3</span></div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Node 4: DB Layer */}
-          <div className="absolute pointer-events-auto" style={{ left: 750, top: 400, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [25, 45, 25] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="relative -left-1/2 -top-1/2 w-[260px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#b255ff]/40 rounded-2xl overflow-hidden shadow-[0_20px_30px_rgba(178,85,255,0.2)] hover:-translate-y-2 transition-all cursor-pointer">
-              <div className="bg-[#b255ff]/10 px-4 py-3 border-b border-[#b255ff]/20 flex items-center justify-between">
-                 <div className="flex items-center gap-2 text-white text-sm font-semibold"><Database className="w-5 h-5 text-[#b255ff]" /> Postgres DB</div>
-                 <Server className="w-4 h-4 text-neutral-500" />
-              </div>
-              <div className="p-4 space-y-3">
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold">Action</span><span className="text-[#b255ff] font-mono text-xs">UPSERT</span></div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Node 5: Gen AI */}
-          <div className="absolute pointer-events-auto" style={{ left: 750, top: 650, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [35, 55, 35] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }} className="relative -left-1/2 -top-1/2 w-[260px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#ff00a0]/40 rounded-2xl overflow-hidden shadow-[0_20px_px_rgba(255,0,160,0.25)] hover:-translate-y-2 transition-all cursor-pointer">
-              <div className="bg-[#ff00a0]/10 px-4 py-3 border-b border-[#ff00a0]/20 flex items-center justify-between">
-                 <div className="flex items-center gap-2 text-white text-sm font-semibold"><Braces className="w-5 h-5 text-[#ff00a0]" /> OpenAI Gen AI</div>
-                 <div className="w-2 h-2 bg-[#ff00a0] rounded-sm animate-ping" />
-              </div>
-              <div className="p-4 space-y-3">
-                 <div className="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5"><span className="uppercase text-[10px] text-neutral-400 font-bold">Model</span><span className="text-[#ff00a0] font-mono text-xs">GPT-4o</span></div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Endpoints */}
-          <div className="absolute pointer-events-auto" style={{ left: 1050, top: 150, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [20, 40, 20] }} transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.2 }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-[#00ffff]/50 shadow-[0_20px_40px_rgba(0,0,0,0.8)] cursor-pointer">
-              <div className="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center justify-between"><div className="flex items-center gap-2 text-white text-sm font-medium"><Bell className="w-4 h-4 text-[#00ffff]" /> Slack</div><CheckCircle className="w-3 h-3 text-emerald-500" /></div>
-            </motion.div>
-          </div>
-
-          <div className="absolute pointer-events-auto" style={{ left: 1050, top: 400, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [10, 30, 10] }} transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-[#b255ff]/50 shadow-[0_20px_40px_rgba(0,0,0,0.8)] cursor-pointer">
-              <div className="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center justify-between"><div className="flex items-center gap-2 text-white text-sm font-medium"><Box className="w-4 h-4 text-[#b255ff]" /> Snowflake</div><CheckCircle className="w-3 h-3 text-emerald-500" /></div>
-            </motion.div>
-          </div>
-
-          <div className="absolute pointer-events-auto" style={{ left: 1050, top: 650, transformStyle: "preserve-3d" }}>
-            <motion.div animate={{ z: [25, 45, 25] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2.1 }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-[#ff00a0]/50 shadow-[0_20px_40px_rgba(0,0,0,0.8)] cursor-pointer">
-              <div className="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center justify-between"><div className="flex items-center gap-2 text-white text-sm font-medium"><Mail className="w-4 h-4 text-[#ff00a0]" /> SendGrid</div><CheckCircle className="w-3 h-3 text-emerald-500" /></div>
-            </motion.div>
-          </div>
-
-          </motion.div>
         </div>
       </div>
-
-      {/* =========================================
-          MOBILE 3D TUNNEL SCENE (< lg)
-          ========================================= */}
-      <div 
-        className="lg:hidden absolute top-[170px] sm:top-[200px] bottom-0 left-0 right-0 flex items-start justify-center pointer-events-none" 
-        style={{ perspective: "1000px" }}
-      >
-        <div 
-          className="relative w-[375px] h-[700px] flex items-center justify-center scale-90 sm:scale-100 origin-top pointer-events-none"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {/* Vertical 3D World (Tilted Back) */}
-          <motion.div
-            style={{ transformStyle: "preserve-3d" }}
-            initial={{ rotateX: 45, rotateZ: 0, y: -100 }}
-            animate={{ rotateX: 45, rotateZ: [0, 2, -2, 0], y: [-100, -80, -100] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
-            {/* Deep Grid Layer */}
-            <div 
-              className="absolute inset-x-[-200px] inset-y-[0px] bg-[linear-gradient(to_right,#ffffff0c_2px,transparent_2px),linear-gradient(to_bottom,#ffffff0c_2px,transparent_2px)] bg-[size:4rem_4rem] border-x border-white/5" 
-              style={{ transform: "translateZ(-30px)", boxShadow: "inset 0 0 100px rgba(0,0,0,0.9)" }} 
-            />
-
-            {/* SVG Wires Flowing Down */}
-            <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ transform: "translateZ(-30px)" }}>
-              <defs>
-                <linearGradient id="wire-mob" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#d08bff" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#00ffff" stopOpacity="0.8" />
-                </linearGradient>
-                <filter id="glow-mob"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-
-              <g opacity="0.5">
-                <path d="M 187 50 L 187 200" fill="none" stroke="url(#wire-mob)" strokeWidth="4" />
-                <path d="M 187 200 C 187 350, 60 300, 60 400" fill="none" stroke="url(#wire-mob)" strokeWidth="4" />
-                <path d="M 187 200 C 187 350, 314 300, 314 400" fill="none" stroke="url(#wire-mob)" strokeWidth="4" />
-                <path d="M 187 200 L 187 400" fill="none" stroke="url(#wire-mob)" strokeWidth="4" />
-                <path d="M 60 400 C 60 550, 187 500, 187 600" fill="none" stroke="#00ffff" strokeWidth="4" />
-                <path d="M 314 400 C 314 550, 187 500, 187 600" fill="none" stroke="#00ffff" strokeWidth="4" />
-                <path d="M 187 400 L 187 600" fill="none" stroke="#b255ff" strokeWidth="4" />
-              </g>
-
-              {/* Floor Anchors */}
-              <g filter="url(#glow-mob)">
-                <circle cx="187" cy="50" r="6" fill="#d08bff" />
-                <circle cx="187" cy="200" r="6" fill="#b255ff" />
-                <circle cx="60" cy="400" r="6" fill="#00ffff" />
-                <circle cx="187" cy="400" r="6" fill="#ff00a0" />
-                <circle cx="314" cy="400" r="6" fill="#00ffff" />
-                <circle cx="187" cy="600" r="6" fill="#fff" />
-              </g>
-
-              {/* Particles */}
-              <g filter="url(#glow-mob)">
-                 <motion.path d="M 187 50 L 187 200" fill="none" stroke="#fff" strokeWidth="4" strokeDasharray="10 140" animate={{ strokeDashoffset: [150, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }} />
-                 <motion.path d="M 187 200 C 187 350, 60 300, 60 400" fill="none" stroke="#fff" strokeWidth="4" strokeDasharray="10 190" animate={{ strokeDashoffset: [200, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: "linear", delay: 0.2 }} />
-                 <motion.path d="M 187 200 L 187 400" fill="none" stroke="#fff" strokeWidth="4" strokeDasharray="10 190" animate={{ strokeDashoffset: [200, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "linear", delay: 0.5 }} />
-                 <motion.path d="M 60 400 C 60 550, 187 500, 187 600" fill="none" stroke="#fff" strokeWidth="4" strokeDasharray="10 190" animate={{ strokeDashoffset: [200, 0] }} transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }} />
-              </g>
-            </svg>
-
-            {/* Mobile Nodes */}
-            <div className="absolute pointer-events-auto" style={{ left: 187, top: 50, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [20, 35, 20] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#b255ff]/50 rounded-xl shadow-[0_20px_40px_rgba(178,85,255,0.4)]">
-                <div className="bg-[#190d26]/80 px-4 py-2.5 border-b border-[#b255ff]/30 flex items-center justify-between">
-                   <div className="flex items-center gap-2 text-white text-xs font-semibold"><Webhook className="w-4 h-4 text-[#d08bff]" /> Stripe Webhook</div>
-                   <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="absolute pointer-events-auto" style={{ left: 187, top: 200, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [30, 45, 30] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#00ffff]/40 rounded-xl shadow-[0_20px_40px_rgba(0,255,255,0.3)]">
-                <div className="bg-white/5 px-4 py-2.5 border-b border-[#00ffff]/20 flex items-center gap-2 text-white text-xs font-semibold">
-                   <Network className="w-4 h-4 text-[#00ffff]" /> Core Logic Router
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Clustering 3 small nodes in the middle */}
-            <div className="absolute pointer-events-auto" style={{ left: 60, top: 400, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [10, 25, 10] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }} className="relative -left-1/2 -top-1/2 w-[110px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#ff00a0]/40 rounded-xl shadow-lg p-3 flex flex-col items-center gap-2 text-center text-white text-[10px] font-bold">
-                 <Braces className="w-5 h-5 text-[#ff00a0]" /> OpenAI Gen AI
-              </motion.div>
-            </div>
-
-            <div className="absolute pointer-events-auto" style={{ left: 187, top: 400, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [15, 30, 15] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.2 }} className="relative -left-1/2 -top-1/2 w-[110px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#b255ff]/40 rounded-xl shadow-lg p-3 flex flex-col items-center gap-2 text-center text-white text-[10px] font-bold">
-                 <Database className="w-5 h-5 text-[#b255ff]" /> Postgres DB
-              </motion.div>
-            </div>
-
-            <div className="absolute pointer-events-auto" style={{ left: 314, top: 400, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [10, 25, 10] }} transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }} className="relative -left-1/2 -top-1/2 w-[110px] bg-[#0c0514]/90 backdrop-blur-xl border border-[#00ffff]/30 rounded-xl shadow-lg p-3 flex flex-col items-center gap-2 text-center text-white text-[10px] font-bold">
-                 <Activity className="w-5 h-5 text-[#00ffff]" /> NLP Engine
-              </motion.div>
-            </div>
-
-            <div className="absolute pointer-events-auto" style={{ left: 187, top: 600, transformStyle: "preserve-3d" }}>
-              <motion.div animate={{ z: [5, 20, 5] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.8 }} className="relative -left-1/2 -top-1/2 w-[220px] bg-[#0c0514]/90 backdrop-blur-xl border border-white/20 rounded-xl hover:border-white/50 shadow-2xl cursor-pointer">
-                <div className="bg-white/5 px-4 py-2.5 flex items-center justify-between"><div className="flex items-center gap-2 text-white text-xs font-semibold"><CheckCircle className="w-4 h-4 text-emerald-400" /> Success Endpoints</div></div>
-              </motion.div>
-            </div>
-
-          </motion.div>
-        </div>
-      </div>
-
     </section>
   )
 }
